@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="createEmployeeList.cs" />
+    <Compile Include="createFullSite.cs" />
     <Compile Include="createProjectDocumentList.cs" />
     <Compile Include="createProjectList.cs" />
     <Compile Include="Program.cs" />

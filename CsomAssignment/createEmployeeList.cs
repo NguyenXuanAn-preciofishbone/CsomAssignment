@@ -27,40 +27,35 @@ namespace CsomAssignment
 
         public void Execute()
         {
-            //createField();
-            //createContentType();
+            createField();
+            createContentType();
             createList();
         }
 
         void createField()
         {
-            try
-            {
-                string fieldLastName = $"<Field ID='{idLastName}' DisplayName='Last name' Name='LastName' Group='CSOM assignment' Type='Text' />";
-                string fieldShortDescription = $"<Field ID='{idShortDescription}' DisplayName='Short description' Name='ShortDescription' Group='CSOM assignment' Type='HTML' />";
-                string fieldProgrammingLanguage =
-                    $"<Field ID='{idProgrammingLanguage}' DisplayName='Programming language' Name='ProgrammingLanguage' Group='CSOM assignment' Type='Choice' Format='Dropdown' Hidden='FALSE'>"
-                    + "<CHOICES>"
-                    + "    <CHOICE>C#</CHOICE>"
-                    + "    <CHOICE>F#</CHOICE>"
-                    + "    <CHOICE>Visual Basic</CHOICE>"
-                    + "    <CHOICE>Java</CHOICE>"
-                    + "    <CHOICE>JQuery</CHOICE>"
-                    + "    <CHOICE>AngularJS</CHOICE>"
-                    + "    <CHOICE>Other</CHOICE>"
-                    + "</CHOICES>"
-                    + "</Field>";
+            string fieldLastName = $"<Field ID='{idLastName}' DisplayName='Last name' Name='LastName' Group='CSOM assignment' Type='Text' />";
+            string fieldShortDescription = $"<Field ID='{idShortDescription}' DisplayName='Short description' Name='ShortDescription' Group='CSOM assignment' Type='HTML' />";
+            string fieldProgrammingLanguage =
+                $"<Field ID='{idProgrammingLanguage}' DisplayName='Programming language' Name='ProgrammingLanguage' Group='CSOM assignment' Type='Choice' Format='Dropdown' Hidden='FALSE'>"
+                + "<CHOICES>"
+                + "    <CHOICE>C#</CHOICE>"
+                + "    <CHOICE>F#</CHOICE>"
+                + "    <CHOICE>Visual Basic</CHOICE>"
+                + "    <CHOICE>Java</CHOICE>"
+                + "    <CHOICE>JQuery</CHOICE>"
+                + "    <CHOICE>AngularJS</CHOICE>"
+                + "    <CHOICE>Other</CHOICE>"
+                + "</CHOICES>"
+                + "</Field>";
 
-                web.Fields.AddFieldAsXml(fieldLastName, false, AddFieldOptions.AddFieldInternalNameHint);
-                web.Fields.AddFieldAsXml(fieldShortDescription, false, AddFieldOptions.AddFieldInternalNameHint);
-                web.Fields.AddFieldAsXml(fieldProgrammingLanguage, false, AddFieldOptions.AddFieldInternalNameHint);
-            }
-            catch (Microsoft.SharePoint.Client.ServerException e)
-            {
-                Console.WriteLine("Field already created. Skip creating new field");
-                return;
-            }
-            Console.WriteLine("Success create new field");
+            web.Fields.AddFieldAsXml(fieldLastName, false, AddFieldOptions.AddFieldInternalNameHint);
+            web.Fields.AddFieldAsXml(fieldShortDescription, false, AddFieldOptions.AddFieldInternalNameHint);
+            web.Fields.AddFieldAsXml(fieldProgrammingLanguage, false, AddFieldOptions.AddFieldInternalNameHint);
+
+            context.ExecuteQuery();
+
+            Console.WriteLine("Success create field");
         }
 
         void createContentType()
@@ -86,8 +81,8 @@ namespace CsomAssignment
             Field fieldProgrammingLanguage = web.Fields.GetByInternalNameOrTitle("Programming language");
 
             ContentType Employee = (from c in contentTypes
-                                       where c.Name == "Employee"
-                                       select c).FirstOrDefault();
+                                    where c.Name == "Employee"
+                                    select c).FirstOrDefault();
 
             Employee.FieldLinks.Add(new FieldLinkCreationInformation
             {
