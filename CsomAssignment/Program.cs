@@ -15,7 +15,8 @@ namespace CsomAssignment
             const string username = "lanehacker7294@NguyenXuanAn.onmicrosoft.com";
             const string password = "@Ab0907284582";
             const string adminSite = "https://nguyenxuanan-admin.sharepoint.com/";
-            const string testSite = "https://nguyenxuanan.sharepoint.com/sites/test2";
+            const string testSite = "https://nguyenxuanan.sharepoint.com/sites/test3";
+            const string rootSite = "https://nguyenxuanan.sharepoint.com/";
 
             var securedPassword = new SecureString();
             foreach (var c in password.ToCharArray()) securedPassword.AppendChar(c);
@@ -35,7 +36,8 @@ namespace CsomAssignment
                 switch (input)
                 {
                     case "1":
-                        using (ClientContext context = new ClientContext(testSite)){
+                        using (ClientContext context = new ClientContext(testSite))
+                        {
                             createEmployeeList operation = new createEmployeeList(context, credentials);
                             operation.Execute();
                         }
@@ -57,8 +59,24 @@ namespace CsomAssignment
                     case "4":
                         using (ClientContext context = new ClientContext(adminSite))
                         {
+                            Console.WriteLine("Input site title: ");
+                            string title = Console.ReadLine();
+                            string fullUrl = rootSite + "sites/" + title;
+
                             createFullSite operation = new createFullSite(context, credentials);
-                            operation.Execute();
+                            operation.CreateSite(fullUrl, username, title);
+
+                            using (ClientContext newSiteContext = new ClientContext(fullUrl))
+                            {
+                                createEmployeeList operationCreateEmployeeList = new createEmployeeList(newSiteContext, credentials);
+                                operationCreateEmployeeList.Execute();
+
+                                createProjectList operationCreateProjectList = new createProjectList(newSiteContext, credentials);
+                                operationCreateProjectList.Execute();
+
+                                createProjectDocumentList operationCreateProjectDocumentList = new createProjectDocumentList(newSiteContext, credentials);
+                                operationCreateProjectDocumentList.Execute();
+                            }
                         }
                         break;
                     default:

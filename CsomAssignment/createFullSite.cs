@@ -32,20 +32,20 @@ namespace CsomAssignment
             string title = Console.ReadLine();
             string fullUrl = rootSite + "sites/" + title;
             CreateSite(fullUrl, username, title);
-            using (ClientContext newSiteContext = new ClientContext(fullUrl))
-            {
-                employeeList = new createEmployeeList(newSiteContext, this.credentials);
-                employeeList.Execute();
+            //using (ClientContext newSiteContext = new ClientContext(fullUrl))
+            //{
+            //    employeeList = new createEmployeeList(newSiteContext, this.credentials);
+            //    employeeList.Execute();
 
-                projectList = new createProjectList(newSiteContext, this.credentials);
-                projectList.Execute();
+            //    projectList = new createProjectList(newSiteContext, this.credentials);
+            //    projectList.Execute();
 
-                projectDocumentList = new createProjectDocumentList(newSiteContext, this.credentials);
-                projectDocumentList.Execute();
-            }
+            //    projectDocumentList = new createProjectDocumentList(newSiteContext, this.credentials);
+            //    projectDocumentList.Execute();
+            //}
         }
 
-        void CreateSite(String url, String owner, String title = null, String template = "STS#0", uint? localeId = null, int? compatibilityLevel = null, long? storageQuota = null, double? resourceQuota = null, int? timeZoneId = null)
+        public void CreateSite(String url, String owner, String title = null, String template = "STS#0", uint? localeId = null, int? compatibilityLevel = null, long? storageQuota = null, double? resourceQuota = null, int? timeZoneId = null)
         {
             var tenant = new Tenant(context);
 
