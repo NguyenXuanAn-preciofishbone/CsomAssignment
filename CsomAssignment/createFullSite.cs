@@ -1,10 +1,6 @@
 ﻿using Microsoft.Online.SharePoint.TenantAdministration;
 using Microsoft.SharePoint.Client;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CsomAssignment
 {
@@ -31,22 +27,13 @@ namespace CsomAssignment
             Console.WriteLine("Input site title: ");
             string title = Console.ReadLine();
             string fullUrl = rootSite + "sites/" + title;
-            CreateSite(fullUrl, username, title);
 
-            using (ClientContext newSiteContext = new ClientContext(fullUrl))
-            {
-                employeeList = new createEmployeeList(newSiteContext, this.credentials);
-                employeeList.Execute();
+            createSite(fullUrl, username, title);
+            createComponent(fullUrl);
 
-                projectList = new createProjectList(newSiteContext, this.credentials);
-                projectList.Execute();
-
-                projectDocumentList = new createProjectDocumentList(newSiteContext, this.credentials);
-                projectDocumentList.Execute();
-            }
         }
 
-        public void CreateSite(String url, String owner, String title = null, String template = "STS#0", uint? localeId = null, int? compatibilityLevel = null, long? storageQuota = null, double? resourceQuota = null, int? timeZoneId = null)
+        public void createSite(String url, String owner, String title = null, String template = "STS#0", uint? localeId = null, int? compatibilityLevel = null, long? storageQuota = null, double? resourceQuota = null, int? timeZoneId = null)
         {
             var tenant = new Tenant(context);
 
@@ -87,6 +74,21 @@ namespace CsomAssignment
             }
 
             Console.WriteLine("SiteCollection Created.");
+        }
+
+        public void createComponent(string fullUrl)
+        {
+            ClientContext newSiteContext = new ClientContext(fullUrl);
+
+            employeeList = new createEmployeeList(newSiteContext, this.credentials);
+            employeeList.Execute();
+
+            projectList = new createProjectList(newSiteContext, this.credentials);
+            projectList.Execute();
+
+            projectDocumentList = new createProjectDocumentList(newSiteContext, this.credentials);
+            projectDocumentList.Execute();
+
         }
     }
 }

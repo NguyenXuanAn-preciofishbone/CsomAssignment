@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
 using System.Security;
-using Microsoft.Online.SharePoint.TenantAdministration;
 using Microsoft.SharePoint.Client;
 
 namespace CsomAssignment
