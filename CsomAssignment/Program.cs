@@ -32,6 +32,8 @@ namespace CsomAssignment
                 Console.WriteLine("3. Create Project documents list ");
                 Console.WriteLine("4. Create new Site with all of the above list");
                 Console.WriteLine("WARNING: You must choose option 1 before 2, 2 before 3");
+                Console.WriteLine("Input any other key to exist");
+                Console.Write("Your choice: ");
                 string input = Console.ReadLine();
                 switch (input)
                 {
@@ -59,24 +61,8 @@ namespace CsomAssignment
                     case "4":
                         using (ClientContext context = new ClientContext(adminSite))
                         {
-                            Console.WriteLine("Input site title: ");
-                            string title = Console.ReadLine();
-                            string fullUrl = rootSite + "sites/" + title;
-
                             createFullSite operation = new createFullSite(context, credentials);
-                            operation.CreateSite(fullUrl, username, title);
-
-                            using (ClientContext newSiteContext = new ClientContext(fullUrl))
-                            {
-                                createEmployeeList operationCreateEmployeeList = new createEmployeeList(newSiteContext, credentials);
-                                operationCreateEmployeeList.Execute();
-
-                                createProjectList operationCreateProjectList = new createProjectList(newSiteContext, credentials);
-                                operationCreateProjectList.Execute();
-
-                                createProjectDocumentList operationCreateProjectDocumentList = new createProjectDocumentList(newSiteContext, credentials);
-                                operationCreateProjectDocumentList.Execute();
-                            }
+                            operation.Execute();
                         }
                         break;
                     default:

@@ -32,17 +32,18 @@ namespace CsomAssignment
             string title = Console.ReadLine();
             string fullUrl = rootSite + "sites/" + title;
             CreateSite(fullUrl, username, title);
-            //using (ClientContext newSiteContext = new ClientContext(fullUrl))
-            //{
-            //    employeeList = new createEmployeeList(newSiteContext, this.credentials);
-            //    employeeList.Execute();
 
-            //    projectList = new createProjectList(newSiteContext, this.credentials);
-            //    projectList.Execute();
+            using (ClientContext newSiteContext = new ClientContext(fullUrl))
+            {
+                employeeList = new createEmployeeList(newSiteContext, this.credentials);
+                employeeList.Execute();
 
-            //    projectDocumentList = new createProjectDocumentList(newSiteContext, this.credentials);
-            //    projectDocumentList.Execute();
-            //}
+                projectList = new createProjectList(newSiteContext, this.credentials);
+                projectList.Execute();
+
+                projectDocumentList = new createProjectDocumentList(newSiteContext, this.credentials);
+                projectDocumentList.Execute();
+            }
         }
 
         public void CreateSite(String url, String owner, String title = null, String template = "STS#0", uint? localeId = null, int? compatibilityLevel = null, long? storageQuota = null, double? resourceQuota = null, int? timeZoneId = null)
@@ -73,6 +74,19 @@ namespace CsomAssignment
             var siteOp = tenant.CreateSite(siteCreationProperties);
             context.Load(siteOp);
             context.ExecuteQuery();
+
+            context.Load(siteOp, i => i.IsComplete);
+
+            context.ExecuteQuery();
+
+            while (!siteOp.IsComplete)
+            {
+                System.Threading.Thread.Sleep(30000);
+                siteOp.RefreshLoad();
+                context.ExecuteQuery();
+            }
+
+            Console.WriteLine("SiteCollection Created.");
         }
     }
 }
