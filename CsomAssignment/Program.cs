@@ -11,7 +11,7 @@ namespace CsomAssignment
             const string username = "lanehacker7294@NguyenXuanAn.onmicrosoft.com";
             const string password = "@Ab0907284582";
             const string adminSite = "https://nguyenxuanan-admin.sharepoint.com/";
-            const string testSite = "https://nguyenxuanan.sharepoint.com/sites/test3";
+            const string testSite = "https://nguyenxuanan.sharepoint.com/sites/example";
             const string rootSite = "https://nguyenxuanan.sharepoint.com/";
 
             var securedPassword = new SecureString();
@@ -58,7 +58,7 @@ namespace CsomAssignment
                         using (ClientContext context = new ClientContext(adminSite))
                         {
                             createFullSite operation = new createFullSite(context, credentials);
-                            operation.Execute();
+                            operation.Execute(rootSite, username);
                         }
                         break;
                     default:

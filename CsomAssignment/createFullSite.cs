@@ -12,9 +12,6 @@ namespace CsomAssignment
         private createProjectDocumentList projectDocumentList;
         private SharePointOnlineCredentials credentials;
 
-        private string rootSite = "https://nguyenxuanan.sharepoint.com/";
-        private string username = "lanehacker7294@NguyenXuanAn.onmicrosoft.com";
-
         public createFullSite(ClientContext context, SharePointOnlineCredentials credentials)
         {
             this.context = context;
@@ -22,7 +19,7 @@ namespace CsomAssignment
             context.Credentials = this.credentials;
         }
 
-        public void Execute()
+        public void Execute(string rootSite, string username)
         {
             Console.WriteLine("Input site title: ");
             string title = Console.ReadLine();
@@ -60,15 +57,15 @@ namespace CsomAssignment
                 siteCreationProperties.TimeZoneId = timeZoneId.Value;
             var siteOp = tenant.CreateSite(siteCreationProperties);
             context.Load(siteOp);
-            context.ExecuteQuery();
+            context.ExecuteQuery();          
 
             context.Load(siteOp, i => i.IsComplete);
-
             context.ExecuteQuery();
 
             while (!siteOp.IsComplete)
             {
-                System.Threading.Thread.Sleep(30000);
+                Console.WriteLine("Creating");
+                System.Threading.Thread.Sleep(20000);
                 siteOp.RefreshLoad();
                 context.ExecuteQuery();
             }
@@ -88,7 +85,6 @@ namespace CsomAssignment
 
             projectDocumentList = new createProjectDocumentList(newSiteContext, this.credentials);
             projectDocumentList.Execute();
-
         }
     }
 }

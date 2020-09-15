@@ -8,6 +8,7 @@ namespace CsomAssignment
     {
         private ClientContext context;
         private Web web;
+
         public createProjectDocumentList(ClientContext context, SharePointOnlineCredentials credentials)
         {
             this.context = context;
@@ -108,7 +109,7 @@ namespace CsomAssignment
 
             ContentType ProjectDocumentsContentType = (from contentType in contentTypes where contentType.Name == "Project documents" select contentType).FirstOrDefault();
 
-            List ProjectDocumentsList = web.Lists.GetByTitle("Project");
+            List ProjectDocumentsList = web.Lists.GetByTitle("Project documents");
             ProjectDocumentsList.ContentTypes.AddExistingContentType(ProjectDocumentsContentType);
             ProjectDocumentsList.Update();
             context.Web.Update();
